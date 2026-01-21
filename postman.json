@@ -1,21 +1,62 @@
 {
   "info": {
     "_postman_id": "blockchain-full-api-collection",
-    "name": "Blockchain System All API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "name": "Blockchain System Complete API",
+    "description": "Complete Blockchain Backend System with all features: Authentication, Wallet, Transaction, Blockchain, Token, Contract, DeFi, Bridge, DAO, P2P, Mining, Explorer, Network",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "2.0.0"
   },
   "item": [
     {
-      "name": "Authentication",
+      "name": "🏠 Health & Info",
       "item": [
         {
-          "name": "Register",
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            },
+            "description": "System health check endpoint"
+          },
+          "response": []
+        },
+        {
+          "name": "API Documentation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            },
+            "description": "Get API documentation and endpoints"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "Register User",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"username\": \"testuser\",\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\"\n}",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"user\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -23,12 +64,11 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3000/api/auth/register",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/auth/register",
+              "host": ["{{base_url}}"],
               "path": ["api", "auth", "register"]
-            }
+            },
+            "description": "Create new user account"
           },
           "response": []
         },
@@ -36,10 +76,16 @@
           "name": "Login",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\"\n}",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -47,40 +93,38 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3000/api/auth/login",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
               "path": ["api", "auth", "login"]
-            }
+            },
+            "description": "User login to get JWT token"
           },
           "response": []
         },
         {
-          "name": "Profile",
+          "name": "Get Profile",
           "request": {
             "method": "GET",
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{token}}",
+                "value": "Bearer {{auth_token}}",
                 "type": "text"
               }
             ],
             "url": {
-              "raw": "http://localhost:3000/api/auth/profile",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/auth/profile",
+              "host": ["{{base_url}}"],
               "path": ["api", "auth", "profile"]
-            }
+            },
+            "description": "Get current user profile"
           },
           "response": []
         }
       ]
     },
     {
-      "name": "Wallet",
+      "name": "💰 Wallet",
       "item": [
         {
           "name": "Create Wallet",
@@ -89,13 +133,18 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{token}}",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
                 "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"network\": \"mainnet\"\n}",
+              "raw": "{\n  \"network\": \"mainnet\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -103,12 +152,11 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3000/api/wallet/create",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/wallet/create",
+              "host": ["{{base_url}}"],
               "path": ["api", "wallet", "create"]
-            }
+            },
+            "description": "Create new blockchain wallet"
           },
           "response": []
         },
@@ -119,24 +167,103 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{token}}",
+                "value": "Bearer {{auth_token}}",
                 "type": "text"
               }
             ],
             "url": {
-              "raw": "http://localhost:3000/api/wallet/my-wallets",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/wallet/my-wallets",
+              "host": ["{{base_url}}"],
               "path": ["api", "wallet", "my-wallets"]
-            }
+            },
+            "description": "Get all wallets for current user"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Wallet Balance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wallet/balance/0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wallet", "balance", "0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a1"]
+            },
+            "description": "Get balance for specific wallet address"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Wallet Transactions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wallet/transactions/0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a1?limit=10&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wallet", "transactions", "0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a1"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get transactions for specific wallet"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Wallets (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wallet/all?limit=20&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wallet", "all"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get all wallets (Admin only)"
           },
           "response": []
         }
       ]
     },
     {
-      "name": "Transaction",
+      "name": "💸 Transaction",
       "item": [
         {
           "name": "Send Transaction",
@@ -145,13 +272,18 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{token}}",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
                 "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"from_address\": \"0x...\",\n    \"to_address\": \"0x...\",\n    \"amount\": 1.5\n}",
+              "raw": "{\n  \"from_address\": \"0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a1\",\n  \"to_address\": \"0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a2\",\n  \"amount\": 1.5,\n  \"token_id\": 1\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -159,12 +291,31 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3000/api/transaction/send",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/transaction/send",
+              "host": ["{{base_url}}"],
               "path": ["api", "transaction", "send"]
-            }
+            },
+            "description": "Send cryptocurrency transaction"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Transaction by Hash",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/transaction/0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+              "host": ["{{base_url}}"],
+              "path": ["api", "transaction", "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"]
+            },
+            "description": "Get transaction details by hash"
           },
           "response": []
         },
@@ -175,24 +326,59 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{token}}",
+                "value": "Bearer {{auth_token}}",
                 "type": "text"
               }
             ],
             "url": {
-              "raw": "http://localhost:3000/api/transaction/recent",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
-              "path": ["api", "transaction", "recent"]
-            }
+              "raw": "{{base_url}}/api/transaction/recent?limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "transaction", "recent"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Get recent transactions"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pending Transactions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/transaction/pending?limit=50&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["api", "transaction", "pending"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get pending transactions"
           },
           "response": []
         }
       ]
     },
     {
-      "name": "Blockchain",
+      "name": "⛓️ Blockchain",
       "item": [
         {
           "name": "Get Latest Block",
@@ -201,17 +387,70 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{token}}",
+                "value": "Bearer {{auth_token}}",
                 "type": "text"
               }
             ],
             "url": {
-              "raw": "http://localhost:3000/api/blockchain/blocks/latest",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/blockchain/blocks/latest",
+              "host": ["{{base_url}}"],
               "path": ["api", "blockchain", "blocks", "latest"]
-            }
+            },
+            "description": "Get latest blockchain block"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Block by Number",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/blockchain/blocks/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "blockchain", "blocks", "1"]
+            },
+            "description": "Get block by block number"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Block (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"miner_address\": \"0xminer123\",\n  \"difficulty\": 2.5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/blockchain/blocks",
+              "host": ["{{base_url}}"],
+              "path": ["api", "blockchain", "blocks"]
+            },
+            "description": "Create new block (Admin only)"
           },
           "response": []
         },
@@ -222,24 +461,23 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{token}}",
+                "value": "Bearer {{auth_token}}",
                 "type": "text"
               }
             ],
             "url": {
-              "raw": "http://localhost:3000/api/blockchain/status",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/blockchain/status",
+              "host": ["{{base_url}}"],
               "path": ["api", "blockchain", "status"]
-            }
+            },
+            "description": "Get blockchain network status"
           },
           "response": []
         }
       ]
     },
     {
-      "name": "Token",
+      "name": "🪙 Token",
       "item": [
         {
           "name": "Create Token",
@@ -248,13 +486,18 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{token}}",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
                 "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"My Token\",\n    \"symbol\": \"MTK\",\n    \"total_supply\": 1000000,\n    \"type\": \"erc20\"\n}",
+              "raw": "{\n  \"name\": \"My Token\",\n  \"symbol\": \"MTK\",\n  \"total_supply\": 1000000,\n  \"decimals\": 18,\n  \"type\": \"erc20\",\n  \"contract_address\": \"0x123...\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -262,12 +505,11 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3000/api/token/create",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/token/create",
+              "host": ["{{base_url}}"],
               "path": ["api", "token", "create"]
-            }
+            },
+            "description": "Create new token"
           },
           "response": []
         },
@@ -278,24 +520,204 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{token}}",
+                "value": "Bearer {{auth_token}}",
                 "type": "text"
               }
             ],
             "url": {
-              "raw": "http://localhost:3000/api/token/list",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
-              "path": ["api", "token", "list"]
-            }
+              "raw": "{{base_url}}/api/token/list?limit=100&offset=0&type=erc20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "token", "list"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                },
+                {
+                  "key": "type",
+                  "value": "erc20"
+                }
+              ]
+            },
+            "description": "Get list of all tokens"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Token by Symbol",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/token/ETH",
+              "host": ["{{base_url}}"],
+              "path": ["api", "token", "ETH"]
+            },
+            "description": "Get token details by symbol"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Token (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Token Name\",\n  \"verified\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/token/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "token", "1"]
+            },
+            "description": "Update token metadata (Admin only)"
           },
           "response": []
         }
       ]
     },
     {
-      "name": "DeFi",
+      "name": "📜 Smart Contract",
+      "item": [
+        {
+          "name": "Deploy Contract",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My Smart Contract\",\n  \"address\": \"0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a3\",\n  \"abi\": \"[{\\\"inputs\\\":[],\\\"name\\\":\\\"getValue\\\",\\\"outputs\\\":[{\\\"internalType\\\":\\\"uint256\\\",\\\"name\\\":\\\"\\\",\\\"type\\\":\\\"uint256\\\"}],\\\"stateMutability\\\":\\\"view\\\",\\\"type\\\":\\\"function\\\"}]\",\n  \"type\": \"defi\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/contract/deploy",
+              "host": ["{{base_url}}"],
+              "path": ["api", "contract", "deploy"]
+            },
+            "description": "Deploy new smart contract"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Verified Contracts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/contract/verified",
+              "host": ["{{base_url}}"],
+              "path": ["api", "contract", "verified"]
+            },
+            "description": "Get verified smart contracts"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Contract by Address",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/contract/0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a3",
+              "host": ["{{base_url}}"],
+              "path": ["api", "contract", "0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a3"]
+            },
+            "description": "Get contract details by address"
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Contract (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/contract/1/verify",
+              "host": ["{{base_url}}"],
+              "path": ["api", "contract", "1", "verify"]
+            },
+            "description": "Verify smart contract (Admin only)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔄 DeFi",
       "item": [
         {
           "name": "Create DeFi Pool",
@@ -304,13 +726,18 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{token}}",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
                 "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"ETH-USDC Pool\",\n    \"token_a_id\": 1,\n    \"token_b_id\": 4,\n    \"apr\": 5.5\n}",
+              "raw": "{\n  \"name\": \"ETH-USDC Pool\",\n  \"contract_address\": \"0xpool123\",\n  \"token_a_id\": 1,\n  \"token_b_id\": 4,\n  \"apr\": 5.5\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -318,12 +745,11 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3000/api/defi/pools/create",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/defi/pools/create",
+              "host": ["{{base_url}}"],
               "path": ["api", "defi", "pools", "create"]
-            }
+            },
+            "description": "Create new DeFi liquidity pool"
           },
           "response": []
         },
@@ -334,24 +760,218 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{token}}",
+                "value": "Bearer {{auth_token}}",
                 "type": "text"
               }
             ],
             "url": {
-              "raw": "http://localhost:3000/api/defi/pools",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/defi/pools",
+              "host": ["{{base_url}}"],
               "path": ["api", "defi", "pools"]
-            }
+            },
+            "description": "Get all DeFi pools"
+          },
+          "response": []
+        },
+        {
+          "name": "Add Liquidity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount_a\": 10.5,\n  \"amount_b\": 210.0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/defi/pools/1/add-liquidity",
+              "host": ["{{base_url}}"],
+              "path": ["api", "defi", "pools", "1", "add-liquidity"]
+            },
+            "description": "Add liquidity to DeFi pool"
+          },
+          "response": []
+        },
+        {
+          "name": "Update APR (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"apr\": 6.5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/defi/pools/1/apr",
+              "host": ["{{base_url}}"],
+              "path": ["api", "defi", "pools", "1", "apr"]
+            },
+            "description": "Update pool APR (Admin only)"
           },
           "response": []
         }
       ]
     },
     {
-      "name": "DAO",
+      "name": "🌉 Bridge",
+      "item": [
+        {
+          "name": "Bridge Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source_network\": \"ethereum\",\n  \"target_network\": \"bsc\",\n  \"amount\": 1.5,\n  \"sender_address\": \"0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a1\",\n  \"receiver_address\": \"0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a2\",\n  \"token_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/bridge/transfer",
+              "host": ["{{base_url}}"],
+              "path": ["api", "bridge", "transfer"]
+            },
+            "description": "Initiate cross-chain bridge transfer"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Bridge Transactions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/bridge/transactions?status=pending&limit=50&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["api", "bridge", "transactions"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "pending"
+                },
+                {
+                  "key": "limit",
+                  "value": "50"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get bridge transactions"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Supported Networks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/bridge/networks",
+              "host": ["{{base_url}}"],
+              "path": ["api", "bridge", "networks"]
+            },
+            "description": "Get supported bridge networks"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Bridge Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"completed\",\n  \"target_tx_hash\": \"0xabcdef1234567890\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/bridge/transactions/1/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "bridge", "transactions", "1", "status"]
+            },
+            "description": "Update bridge transaction status"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🏛️ DAO",
       "item": [
         {
           "name": "Create DAO",
@@ -360,13 +980,18 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{token}}",
+                "value": "Bearer {{dao_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
                 "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"My DAO\",\n    \"description\": \"Decentralized Autonomous Organization\",\n    \"governance_token_id\": 1\n}",
+              "raw": "{\n  \"name\": \"Community DAO\",\n  \"description\": \"Decentralized community governance\",\n  \"governance_token_id\": 1,\n  \"voting_duration\": 172800,\n  \"min_quorum\": 60.0\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -374,12 +999,41 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3000/api/dao/create",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/dao/create",
+              "host": ["{{base_url}}"],
               "path": ["api", "dao", "create"]
-            }
+            },
+            "description": "Create new DAO (DAO member or Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "List DAOs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/dao/list?limit=20&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dao", "list"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get all DAOs"
           },
           "response": []
         },
@@ -390,13 +1044,18 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{token}}",
+                "value": "Bearer {{dao_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
                 "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"title\": \"New Feature Proposal\",\n    \"description\": \"Add new feature to the platform\"\n}",
+              "raw": "{\n  \"title\": \"New Feature Proposal\",\n  \"description\": \"Add new feature to the platform\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -404,32 +1063,840 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3000/api/dao/1/proposals/create",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/dao/1/proposals/create",
+              "host": ["{{base_url}}"],
               "path": ["api", "dao", "1", "proposals", "create"]
-            }
+            },
+            "description": "Create new proposal in DAO"
+          },
+          "response": []
+        },
+        {
+          "name": "Get DAO Proposals",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/dao/1/proposals?status=active",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dao", "1", "proposals"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "active"
+                }
+              ]
+            },
+            "description": "Get proposals for specific DAO"
+          },
+          "response": []
+        },
+        {
+          "name": "Vote on Proposal",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{dao_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vote\": \"for\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/dao/proposals/1/vote",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dao", "proposals", "1", "vote"]
+            },
+            "description": "Vote on DAO proposal"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Proposal Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{dao_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"active\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/dao/proposals/1/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dao", "proposals", "1", "status"]
+            },
+            "description": "Update proposal status"
           },
           "response": []
         }
       ]
     },
     {
-      "name": "Health Check",
+      "name": "🤝 P2P Network",
       "item": [
         {
-          "name": "Health Endpoint",
+          "name": "Start P2P Network",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/p2p/start",
+              "host": ["{{base_url}}"],
+              "path": ["api", "p2p", "start"]
+            },
+            "description": "Start P2P network node"
+          },
+          "response": []
+        },
+        {
+          "name": "Connect to Peer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"host\": \"localhost\",\n  \"port\": 5002\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/p2p/connect",
+              "host": ["{{base_url}}"],
+              "path": ["api", "p2p", "connect"]
+            },
+            "description": "Connect to P2P peer"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Peers",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
             "url": {
-              "raw": "http://localhost:3000/health",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{base_url}}/api/p2p/peers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "p2p", "peers"]
+            },
+            "description": "Get connected peers"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Network Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/p2p/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "p2p", "stats"]
+            },
+            "description": "Get P2P network statistics"
+          },
+          "response": []
+        },
+        {
+          "name": "Discover Peers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/p2p/discover",
+              "host": ["{{base_url}}"],
+              "path": ["api", "p2p", "discover"]
+            },
+            "description": "Discover new peers"
+          },
+          "response": []
+        },
+        {
+          "name": "Broadcast Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"messageType\": \"new_transaction\",\n  \"data\": {\n    \"hash\": \"0x123...\",\n    \"from\": \"0x...\",\n    \"to\": \"0x...\",\n    \"amount\": 1.5\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/p2p/broadcast",
+              "host": ["{{base_url}}"],
+              "path": ["api", "p2p", "broadcast"]
+            },
+            "description": "Broadcast message to P2P network"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Node Info",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/p2p/node-info",
+              "host": ["{{base_url}}"],
+              "path": ["api", "p2p", "node-info"]
+            },
+            "description": "Get P2P node information"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "⛏️ Mining",
+      "item": [
+        {
+          "name": "Start Mining",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"minerAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/mining/start",
+              "host": ["{{base_url}}"],
+              "path": ["api", "mining", "start"]
+            },
+            "description": "Start blockchain mining"
+          },
+          "response": []
+        },
+        {
+          "name": "Stop Mining",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mining/stop",
+              "host": ["{{base_url}}"],
+              "path": ["api", "mining", "stop"]
+            },
+            "description": "Stop mining"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Miner Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mining/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "mining", "stats"]
+            },
+            "description": "Get miner statistics"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Network Mining Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mining/network-stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "mining", "network-stats"]
+            },
+            "description": "Get network mining statistics"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Mining Pool",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"poolAddress\": \"0xpool123\",\n  \"feePercentage\": 1.0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/mining/pool/create",
+              "host": ["{{base_url}}"],
+              "path": ["api", "mining", "pool", "create"]
+            },
+            "description": "Create mining pool"
+          },
+          "response": []
+        },
+        {
+          "name": "Join Mining Pool",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"minerAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/mining/pool/join",
+              "host": ["{{base_url}}"],
+              "path": ["api", "mining", "pool", "join"]
+            },
+            "description": "Join mining pool"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pool Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mining/pool/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "mining", "pool", "stats"]
+            },
+            "description": "Get mining pool statistics"
+          },
+          "response": []
+        },
+        {
+          "name": "Claim Mining Rewards",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"minerAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/mining/claim-rewards",
+              "host": ["{{base_url}}"],
+              "path": ["api", "mining", "claim-rewards"]
+            },
+            "description": "Claim mining rewards"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔍 Block Explorer",
+      "item": [
+        {
+          "name": "Get Blocks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explorer/blocks?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explorer", "blocks"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Get blocks with pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Block Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explorer/blocks/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explorer", "blocks", "1"]
+            },
+            "description": "Get detailed block information"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Transaction Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explorer/transactions/0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explorer", "transactions", "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"]
+            },
+            "description": "Get detailed transaction information"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Address Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explorer/address/0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explorer", "address", "0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a1"]
+            },
+            "description": "Get address information and transactions"
+          },
+          "response": []
+        },
+        {
+          "name": "Search Blockchain",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explorer/search?query=ETH",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explorer", "search"],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "ETH"
+                }
+              ]
+            },
+            "description": "Search blockchain data"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Blockchain Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/explorer/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["api", "explorer", "statistics"]
+            },
+            "description": "Get blockchain statistics"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "📊 Network Monitoring",
+      "item": [
+        {
+          "name": "Get Network Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/network/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "network", "status"]
+            },
+            "description": "Get overall network status"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Node Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/network/node-stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "network", "node-stats"]
+            },
+            "description": "Get node statistics"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Network Peers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/network/peers?activeOnly=true",
+              "host": ["{{base_url}}"],
+              "path": ["api", "network", "peers"],
+              "query": [
+                {
+                  "key": "activeOnly",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Get network peers"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Network Latency",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/network/latency",
+              "host": ["{{base_url}}"],
+              "path": ["api", "network", "latency"]
+            },
+            "description": "Get network latency information"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Network Traffic",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/network/traffic?hours=24",
+              "host": ["{{base_url}}"],
+              "path": ["api", "network", "traffic"],
+              "query": [
+                {
+                  "key": "hours",
+                  "value": "24"
+                }
+              ]
+            },
+            "description": "Get network traffic data"
+          },
+          "response": []
+        },
+        {
+          "name": "Get System Health",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/network/system-health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "network", "system-health"]
+            },
+            "description": "Get system health information"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔄 Examples & Setup",
+      "item": [
+        {
+          "name": "Complete User Flow Example",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"steps\": [\n    \"1. Register user\",\n    \"2. Login to get token\",\n    \"3. Create wallet\",\n    \"4. Create token\",\n    \"5. Send transaction\",\n    \"6. Deploy contract\",\n    \"7. Create DeFi pool\",\n    \"8. Bridge transfer\",\n    \"9. Create DAO\",\n    \"10. Start mining\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
               "path": ["health"]
-            }
+            },
+            "description": "Example user flow for testing"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Setup Flow",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"steps\": [\n    \"1. Register admin user\",\n    \"2. Login as admin\",\n    \"3. Create genesis block\",\n    \"4. Seed initial tokens\",\n    \"5. Verify contracts\",\n    \"6. Update token metadata\",\n    \"7. Start P2P network\",\n    \"8. Monitor network health\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            },
+            "description": "Admin setup and configuration flow"
           },
           "response": []
         }
@@ -438,8 +1905,85 @@
   ],
   "variable": [
     {
-      "key": "token",
-      "value": ""
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string",
+      "description": "Base URL for API requests"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string",
+      "description": "JWT token for regular user authentication"
+    },
+    {
+      "key": "admin_token",
+      "value": "",
+      "type": "string",
+      "description": "JWT token for admin user (role: admin)"
+    },
+    {
+      "key": "dao_token",
+      "value": "",
+      "type": "string",
+      "description": "JWT token for DAO member (role: dao_member or admin)"
+    },
+    {
+      "key": "wallet_address",
+      "value": "0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a1",
+      "type": "string",
+      "description": "Sample wallet address for testing"
+    },
+    {
+      "key": "contract_address",
+      "value": "0x742d35Cc6634C0532925a3b844Bc9e0D3C38B8a3",
+      "type": "string",
+      "description": "Sample contract address for testing"
+    },
+    {
+      "key": "transaction_hash",
+      "value": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+      "type": "string",
+      "description": "Sample transaction hash for testing"
     }
-  ]
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Pre-request script for logging",
+          "console.log('Request: ' + pm.request.method + ' ' + pm.request.url);"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Test script for response validation",
+          "pm.test(\"Status code is 200\", function () {",
+          "    pm.response.to.have.status(200);",
+          "});",
+          "",
+          "pm.test(\"Response has success property\", function () {",
+          "    var jsonData = pm.response.json();",
+          "    pm.expect(jsonData.success).to.be.true;",
+          "});"
+        ]
+      }
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  }
 }

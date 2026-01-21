@@ -59,8 +59,8 @@ class Token {
        LEFT JOIN users u ON t.created_by = u.id 
        WHERE t.type = ? 
        ORDER BY t.created_at DESC 
-       LIMIT ? OFFSET ?`,
-      [type, limit, offset]
+       LIMIT ${limit} OFFSET ${offset}`,
+      [type]
     );
   }
   
@@ -72,8 +72,8 @@ class Token {
        LEFT JOIN users u ON t.created_by = u.id 
        WHERE t.contract_address IS NOT NULL 
        ORDER BY t.created_at DESC 
-       LIMIT ?`,
-      [limit]
+       LIMIT ${limit}`,
+      []
     );
   }
   
@@ -85,8 +85,8 @@ class Token {
        LEFT JOIN transactions tx ON t.id = tx.token_id 
        GROUP BY t.id 
        ORDER BY transaction_count DESC 
-       LIMIT ?`,
-      [limit]
+       LIMIT ${limit}`,
+      []
     );
   }
   

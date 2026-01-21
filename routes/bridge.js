@@ -94,8 +94,7 @@ router.get('/transactions', authenticate, async (req, res) => {
       query += ' WHERE ' + conditions.join(' AND ');
     }
     
-    query += ' ORDER BY bt.created_at DESC LIMIT ? OFFSET ?';
-    params.push(parseInt(limit), parseInt(offset));
+    query += ` ORDER BY bt.created_at DESC LIMIT ${limit} OFFSET ${offset}`;
     
     const transactions = await db.query(query, params);
     

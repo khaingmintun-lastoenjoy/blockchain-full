@@ -45,8 +45,8 @@ class Wallet {
       `SELECT w.*, u.username, u.email 
        FROM wallets w 
        JOIN users u ON w.user_id = u.id 
-       LIMIT ? OFFSET ?`,
-      [limit, offset]
+       LIMIT ${limit} OFFSET ${offset}`,
+      []
     );
   }
 }

@@ -56,8 +56,8 @@ class Contract {
        JOIN users u ON c.creator_id = u.id 
        WHERE c.type = ? 
        ORDER BY c.created_at DESC 
-       LIMIT ? OFFSET ?`,
-      [type, limit, offset]
+       LIMIT ${limit} OFFSET ${offset}`,
+      [type]
     );
   }
   
@@ -69,8 +69,8 @@ class Contract {
        JOIN users u ON c.creator_id = u.id 
        WHERE c.verified = true 
        ORDER BY c.created_at DESC 
-       LIMIT ? OFFSET ?`,
-      [limit, offset]
+       LIMIT ${limit} OFFSET ${offset}`,
+      []
     );
   }
   
@@ -82,8 +82,8 @@ class Contract {
        JOIN users u ON c.creator_id = u.id 
        WHERE c.creator_id = ? 
        ORDER BY c.created_at DESC 
-       LIMIT ? OFFSET ?`,
-      [creatorId, limit, offset]
+       LIMIT ${limit} OFFSET ${offset}`,
+      [creatorId]
     );
   }
   

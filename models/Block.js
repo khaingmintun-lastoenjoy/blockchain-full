@@ -38,8 +38,8 @@ class Block {
   // Latest blocks များ ရယူခြင်း
   static async getLatest(limit = 10) {
     return await db.query(
-      'SELECT * FROM blocks ORDER BY block_number DESC LIMIT ?',
-      [limit]
+      `SELECT * FROM blocks ORDER BY block_number DESC LIMIT ${limit}`,
+      []
     );
   }
   
@@ -49,8 +49,8 @@ class Block {
       `SELECT * FROM blocks 
        WHERE block_number >= ? AND block_number <= ? 
        ORDER BY block_number DESC 
-       LIMIT ?`,
-      [fromBlock, toBlock, limit]
+       LIMIT ${limit}`,
+      [fromBlock, toBlock]
     );
   }
   

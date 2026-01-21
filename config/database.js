@@ -7,7 +7,7 @@ module.exports = {
     port: process.env.DB_PORT || 3306,
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '',
-    database: process.env.DB_NAME || 'blockchain_db',
+    database: process.env.DB_NAME || 'blockchain_all',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0

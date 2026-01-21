@@ -51,8 +51,8 @@ class Dao {
        JOIN tokens t ON d.governance_token_id = t.id 
        JOIN users u ON d.creator_id = u.id 
        ORDER BY d.created_at DESC 
-       LIMIT ? OFFSET ?`,
-      [limit, offset]
+       LIMIT ${limit} OFFSET ${offset}`,
+      []
     );
   }
   
@@ -67,8 +67,8 @@ class Dao {
        JOIN users u ON d.creator_id = u.id 
        WHERE d.creator_id = ? 
        ORDER BY d.created_at DESC 
-       LIMIT ? OFFSET ?`,
-      [creatorId, limit, offset]
+       LIMIT ${limit} OFFSET ${offset}`,
+      [creatorId]
     );
   }
   
@@ -132,8 +132,7 @@ class Dao {
       params.push(status);
     }
     
-    query += ' ORDER BY p.created_at DESC LIMIT ? OFFSET ?';
-    params.push(limit, offset);
+    query += ` ORDER BY p.created_at DESC LIMIT ${limit} OFFSET ${offset}`;
     
     return await db.query(query, params);
   }

@@ -46,16 +46,16 @@ class Transaction {
        LEFT JOIN tokens tok ON t.token_id = tok.id 
        WHERE t.from_address = ? OR t.to_address = ? 
        ORDER BY t.created_at DESC 
-       LIMIT ? OFFSET ?`,
-      [address, address, limit, offset]
+       LIMIT ${limit} OFFSET ${offset}`,
+      [address, address]
     );
   }
   
   // Status အလိုက် transaction များ ရှာဖွေခြင်း
   static async findByStatus(status, limit = 100, offset = 0) {
     return await db.query(
-      'SELECT * FROM transactions WHERE status = ? ORDER BY created_at DESC LIMIT ? OFFSET ?',
-      [status, limit, offset]
+      `SELECT * FROM transactions WHERE status = ? ORDER BY created_at DESC LIMIT ${limit} OFFSET ${offset}`,
+      [status]
     );
   }
   
@@ -84,8 +84,8 @@ class Transaction {
        FROM transactions t 
        LEFT JOIN tokens tok ON t.token_id = tok.id 
        ORDER BY t.created_at DESC 
-       LIMIT ?`,
-      [limit]
+       LIMIT ${limit}`,
+      []
     );
   }
 }

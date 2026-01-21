@@ -36,8 +36,8 @@ class User {
   // User အားလုံး ရယူခြင်း
   static async getAll(limit = 100, offset = 0) {
     return await db.query(
-      'SELECT id, username, email, role, created_at FROM users LIMIT ? OFFSET ?',
-      [limit, offset]
+      `SELECT id, username, email, role, created_at FROM users LIMIT ${limit} OFFSET ${offset}`,
+      []
     );
   }
 }
